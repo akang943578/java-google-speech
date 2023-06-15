@@ -1,6 +1,7 @@
 package com.dark.programs.speech;
 
 import com.dark.programs.speech.translator.GoogleTranslate;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,29 +11,28 @@ public class GoogleTranslateTest {
     @Test
     public void testDetect() throws IOException {
         String sourceLang = GoogleTranslate.detectLanguage("How are you today?");
-        System.out.println("sourceLang: " + sourceLang);
+        Assertions.assertEquals("en", sourceLang);
 
         sourceLang = GoogleTranslate.detectLanguage("あなたの名前は何ですか");
-        System.out.println("sourceLang: " + sourceLang);
+        Assertions.assertEquals("ja", sourceLang);
 
         sourceLang = GoogleTranslate.detectLanguage("누구세요");
-        System.out.println("sourceLang: " + sourceLang);
+        Assertions.assertEquals("ko", sourceLang);
 
         sourceLang = GoogleTranslate.detectLanguage("今天吃啥饭");
-        System.out.println("sourceLang: " + sourceLang);
+        Assertions.assertEquals("zh-CN", sourceLang);
     }
 
     @Test
-    public void test() throws IOException {
+    public void testTranslate() throws IOException {
         String rawInput = "你好啊";
-        System.out.println("rawInput: " + rawInput);
-        String sourceLang = GoogleTranslate.detectLanguage("你好啊");
-        String translatedInput = GoogleTranslate.translate(sourceLang, "en-US", "你好啊");
-        System.out.println("translatedInput: " + translatedInput);
+        String sourceLang = GoogleTranslate.detectLanguage(rawInput);
+        Assertions.assertEquals("zh-CN", sourceLang);
+        String translatedInput = GoogleTranslate.translate(sourceLang, "en", "你好啊");
+        Assertions.assertEquals("hello", translatedInput);
 
         String rawResponse = "Hi, how are you?";
-        System.out.println("rawResponse: " + rawResponse);
-        String translatedResponse = GoogleTranslate.translate("en-US", sourceLang, rawResponse);
-        System.out.println("translatedResponse: " + translatedResponse);
+        String translatedResponse = GoogleTranslate.translate("en", sourceLang, rawResponse);
+        Assertions.assertEquals("你好你好吗？", translatedResponse);
     }
 }
