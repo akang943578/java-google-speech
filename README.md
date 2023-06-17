@@ -4,24 +4,16 @@ refer: https://www.javatips.net/api/java-speech-api-master/src/main/java/com/dar
 
 
 ## Usage
-1. Add this repository in your pom.xml 'repositories' section
-```xml
-  <repositories>
-    <repository>
-      <id>akang943578-maven-repo</id>
-      <url>https://raw.githubusercontent.com/akang943578/maven-repo/master/repository</url>
-    </repository>
-  </repositories>
-```
-2. Add this package in your pom.xml `dependencies` section
+1. Add this package in your pom.xml `dependencies` section
+   * You can find the latest version in [Maven Central Repository](https://search.maven.org/search?q=g:io.github.akang943578%20AND%20a:java-google-speech)
 ```xml
     <dependency>
-      <groupId>com.dark.programs</groupId>
-      <artifactId>java-google-speech</artifactId>
-      <version>1.0.0</version>
+        <groupId>io.github.akang943578</groupId>
+        <artifactId>java-google-speech</artifactId>
+        <version>LATEST</version>
     </dependency>
 ```
-3. Use it in your code
+2. Use it in your code
 ```java
 import com.dark.programs.speech.translator.GoogleTranslate;
 import org.junit.jupiter.api.Assertions;

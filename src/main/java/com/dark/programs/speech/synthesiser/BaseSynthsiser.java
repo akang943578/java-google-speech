@@ -67,7 +67,7 @@ public abstract class BaseSynthsiser {
     /**
      * Separates a string into smaller parts so that Google will not reject the request.
      * @param input The string you want to separate
-     * @return A List<String> of the String fragments from your input..
+     * @return A list of the String fragments from your input..
      */
     protected List<String> parseString(String input){
         return parseString (input, new ArrayList<String>());
