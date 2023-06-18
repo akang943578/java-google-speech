@@ -1,5 +1,7 @@
 package com.dark.programs.speech.translator;
 
+import lombok.NonNull;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -44,7 +46,7 @@ public final class GoogleTranslate { //Class marked as final since all methods a
      *
      * @param proxy proxy to use when making requests
      */
-    public static void setProxy(Proxy proxy) {
+    public static void setProxy(@NonNull Proxy proxy) {
         GoogleTranslate.proxy = proxy;
     }
 
