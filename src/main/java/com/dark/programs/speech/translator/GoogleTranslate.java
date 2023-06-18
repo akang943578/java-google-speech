@@ -1,8 +1,12 @@
 package com.dark.programs.speech.translator;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -20,6 +24,10 @@ import java.util.Locale;
  * @author Aaron Gokaslan (Skylion)
  ***************************************************************************************************************/
 public final class GoogleTranslate { //Class marked as final since all methods are static
+    /**
+     * Proxy to use when making requests
+     */
+    private static Proxy proxy = Proxy.NO_PROXY;
 
     /**
      * URL to query for Translation
@@ -30,6 +38,33 @@ public final class GoogleTranslate { //Class marked as final since all methods a
      * Private to prevent instantiation
      */
     private GoogleTranslate(){};
+
+    /**
+     * Set Proxy to use when making requests
+     *
+     * @param proxy proxy to use when making requests
+     */
+    public static void setProxy(Proxy proxy) {
+        GoogleTranslate.proxy = proxy;
+    }
+
+    /**
+     * Sets the authentication for the proxy
+     *
+     * @param authUser     authUser
+     * @param authPassword authPassword
+     */
+    public static void setAuth(String authUser, String authPassword) {
+        System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+        Authenticator.setDefault(
+            new Authenticator() {
+                @Override
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(authUser, authPassword.toCharArray());
+                }
+            }
+        );
+    }
 
     /**
      * Converts the ISO-639 code into a friendly language code in the user's default language
@@ -147,10 +182,10 @@ public final class GoogleTranslate { //Class marked as final since all methods a
      * @throws IOException if it cannot complete the request
      */
     private static String urlToText(URL url) throws IOException{
-        URLConnection urlConn = url.openConnection(); //Open connection
+        URLConnection urlConn = url.openConnection(proxy); //Open connection
         //Adding header for user agent is required. Otherwise, Google rejects the request
         urlConn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:2.0) Gecko/20100101 Firefox/4.0");
-        Reader r = new java.io.InputStreamReader(urlConn.getInputStream(), Charset.forName("UTF-8"));//Gets Data Converts to string
+        Reader r = new InputStreamReader(urlConn.getInputStream(), Charset.forName("UTF-8"));//Gets Data Converts to string
         StringBuilder buf = new StringBuilder();
         while (true) {//Reads String from buffer
             int ch = r.read();
